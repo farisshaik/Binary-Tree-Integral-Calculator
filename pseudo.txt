@@ -1,0 +1,142 @@
+Project 3 pseudocode
+
+Test cases
+1 term contains no coefficient (eg. x^4)
+2 exponent is ^1, should be same output as no exponent
+3 no spacing between terms, can data be properly parsed thru?
+4 coefficient of one, change output to be x instead of 1x
+5 definite fraction where a > b, is the value still correct, with the proper sign?
+6 presence of a + - (ex. x^2 + -4)
+7 input is in increasing exponent order, will BST properly sort?
+8 4x^3, is the output x^4 as opposed to (4/4)x^4, are fractions being properly simplified? Look at review homework with fractions for simplify function
+9 only one term in input, is single node BST properly stored and outputted as intended?
+10 Coefficient of zero, should not be part of output
+11 multiple terms of same exponent, combining properly
+12 multiple terms of same exponent cancel out, like 5x^2 and -5x^2
+
+main
+
+prompt user for filename
+open ifstream
+string input;
+while getline
+    new term inTerm
+    for length 0 to end of line // standardize spacing so info can easily be parsed
+        if curr char is space
+            remove from input string
+        if curr char is + or -
+            add space
+        integrate(string input)
+close ifstream
+
+
+integrate(string input)
+binTree<Term> BST
+Node term newnode
+while string is not empty
+    string current = index 0 to find ' '
+       if current contains char s // is trig function
+            if current contains sin, trig = S
+            elseif current contains cos, trig = C
+            coefficient = int to string (current[0 to index of s])
+            exponent = int to string (current[index of s to index of x])
+            add newnode to BST
+            remove from string
+       else
+            if no variable, coeff = 0
+            elseif no coeff, coeff = 1
+            elseif something else, set coeff
+            add newnode to BST
+            remove from string
+    // the string should be empty and all parts of eqn are in BST
+    traverse BST
+    print out part of integral
+        coeff = coeff/ exponent
+        exponent --
+        fraction output
+        correct sign
+    if definite
+        calculate value
+        print out "= value"
+    else
+        print plus C
+    delete BST
+
+
+
+binTree
+
+templated binTree class <T>
+    friend class node
+    public:
+        void insert(node T)
+        nodeptr search(node T)
+        void remove(node T)
+
+    private:
+        Node root
+
+remove node(removal)
+    if root = null
+        return nullptr
+    else if current < root
+        go left
+    else if current > root
+        go right
+    else
+        if root left is null
+            return right
+        else if root right is null
+            return left
+
+
+insert node (newnode)
+    current = rootnode
+    if empty bst
+        root = newnode
+    elseif newnode = current
+        combine nodes // if there are multiple nodes with the same exponent it can be combined
+    elif newnode < current
+        recursively call insert to left
+    elif newnode > current
+        recursively call insert to right
+
+search(term)
+    if current is not term
+        return nullptr
+    else if current is term
+        return pointer to this node
+    else if term < curr
+        recursively search left
+    else
+        recursively search right
+
+
+
+Node
+
+templated Node class <T>
+    friend class binTree
+    public:
+        constructor Node(T)
+        T getData
+    private:
+        T data
+        Node ptr leftchild
+        Node ptr rightchild
+
+
+Term
+
+public:
+    overloaded operator > for comparing by exponent
+    overloaded operator < for comparing by exponent
+    overloaded operator == for comparing by exponent
+
+private:
+    int coefficient, exponent
+    char sign
+    char trig // S if sin, C if cos, N if none
+
+
+
